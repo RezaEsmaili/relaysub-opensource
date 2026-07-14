@@ -231,6 +231,9 @@ export function RelaySubClient() {
 
   return (
     <main className="min-h-screen bg-white text-zinc-950">
+      <div className="bg-blue-50 text-[#007AFF] text-center text-sm font-semibold py-3 px-4">
+        Want to use the official managed version? Check out <a href="https://r22e.com/relaysub" target="_blank" rel="noreferrer" className="underline font-black">r22e.com/relaysub</a>
+      </div>
       <section className="relative overflow-hidden bg-white px-4 pb-16 pt-28 text-center sm:px-6 sm:pt-36 lg:px-8 lg:pb-20">
         <div className="pointer-events-none absolute left-1/2 top-0 h-[560px] w-[920px] -translate-x-1/2 rounded-full blur-3xl" style={{ background: `radial-gradient(circle, ${withAlpha(accentColor, 0.10)}, transparent 70%)` }} />
         <div className="relative mx-auto max-w-3xl">
