@@ -1,65 +1,88 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { RelaySubClient } from "./RelaySubClient";
+import { RelaySubDemoVideo } from "./RelaySubDemoVideo";
+import { SoftwareApplicationJsonLd } from "@/components/JsonLd";
+import { RELAYSUB_ROUND_ICON } from "@/lib/relaysub-assets";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "RelaySub — Subtitle Translator (SRT, VTT, ASS)",
+  },
+  applicationName: "RelaySub",
+  description:
+    "Translate .srt, .vtt, and .ass subtitle files online with RelaySub into 100+ languages. Upload subtitles, edit translated lines, and export a clean translated file directly in your browser.",
+  manifest: "/manifest.webmanifest",
+  alternates: {
+    canonical: "/",
+  },
+  appleWebApp: {
+    capable: true,
+    title: "RelaySub",
+    statusBarStyle: "default",
+  },
+  icons: {
+    icon: [
+      { url: RELAYSUB_ROUND_ICON, sizes: "512x512", type: "image/png" },
+      { url: RELAYSUB_ROUND_ICON, sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: [{ url: RELAYSUB_ROUND_ICON, type: "image/png" }],
+    apple: [{ url: RELAYSUB_ROUND_ICON, sizes: "180x180", type: "image/png" }],
+  },
+  openGraph: {
+    title: "RelaySub",
+    description:
+      "Upload .srt, .vtt, or .ass subtitles, translate into 100+ languages line by line, manually edit the result, and download a clean translated subtitle file.",
+    url: "https://relaysub.example.com",
+    siteName: "RelaySub",
+    type: "website",
+    images: [RELAYSUB_ROUND_ICON],
+  },
+  twitter: {
+    card: "summary",
+    title: "RelaySub",
+    description:
+      "Upload .srt, .vtt, or .ass subtitles, translate into 100+ languages line by line, manually edit the result, and download a clean translated subtitle file.",
+    images: [RELAYSUB_ROUND_ICON],
+  },
+};
+
+const FALLBACK_FAQ: { question: string; answer: string }[] = [
+  { question: "What is RelaySub?", answer: "RelaySub is a free online subtitle translator. You upload an .srt, .vtt, or .ass subtitle file, translate every line into the language you choose, edit the results, and download a clean translated file — all in your browser, with nothing to install." },
+  { question: "How do I translate an SRT subtitle file?", answer: "Upload your .srt, .vtt, or .ass file or drag and drop it, choose a target language, and press Translate. RelaySub translates the subtitles in fast batches, then lets you edit any line before you export the finished file." },
+  { question: "Is RelaySub free to use?", answer: "Yes. RelaySub is completely free for translating, editing, and exporting subtitle files online. There is no sign-up and no software to download." },
+  { question: "Will the subtitle timings change after translation?", answer: "No. RelaySub only translates the subtitle text. Every subtitle number and start and end timestamp is preserved, so your translated subtitles stay perfectly in sync with the video." },
+  { question: "Which subtitle formats and languages are supported?", answer: "RelaySub works with .srt, .vtt (WebVTT), and .ass / .ssa subtitle files, and exports back to the same format. It supports more than 100 target languages, including right-to-left languages such as Arabic, Persian, and Hebrew." },
+  { question: "Are my subtitle files private?", answer: "Your subtitles are used only to produce the translation and are not stored or shared. RelaySub is a lightweight, browser-based tool focused on doing one job well." },
+];
+
+export default function RelaySubPage() {
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FALLBACK_FAQ.map((entry) => ({
+      "@type": "Question",
+      name: entry.question,
+      acceptedAnswer: { "@type": "Answer", text: entry.answer },
+    })),
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <SoftwareApplicationJsonLd
+        name="RelaySub"
+        description="Translate .srt, .vtt, and .ass subtitle files online with RelaySub into 100+ languages. Upload subtitles, edit translated lines, and export a clean translated file directly in your browser."
+        path="/"
+        operatingSystem="Web"
+        category="MultimediaApplication"
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <RelaySubClient />
+      <RelaySubDemoVideo />
+    </>
   );
 }
